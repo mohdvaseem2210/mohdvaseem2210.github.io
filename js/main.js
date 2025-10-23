@@ -82,18 +82,17 @@ document.querySelectorAll('.service-card, .project-card, .expertise-item, .timel
     observer.observe(el);
 });
 
-// Contact form handling
+// Contact form handling with Formspree
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
+        // Get form data for validation
         const formData = new FormData(this);
         const data = Object.fromEntries(formData);
         
         // Basic validation
         if (!data.name || !data.email || !data.subject || !data.message) {
+            e.preventDefault();
             showMessage('Please fill in all required fields.', 'error');
             return;
         }
@@ -101,6 +100,7 @@ if (contactForm) {
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(data.email)) {
+            e.preventDefault();
             showMessage('Please enter a valid email address.', 'error');
             return;
         }
@@ -111,13 +111,14 @@ if (contactForm) {
         submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
         
-        // Simulate form submission (replace with actual endpoint)
+        // Re-enable button after a delay (in case of error)
         setTimeout(() => {
-            showMessage('Thank you for your message! I will get back to you soon.', 'success');
-            contactForm.reset();
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
-        }, 2000);
+        }, 5000);
+        
+        // Let the form submit naturally to Formspree
+        // Formspree will handle the email delivery and redirect
     });
 }
 
