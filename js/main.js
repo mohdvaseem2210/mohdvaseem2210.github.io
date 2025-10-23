@@ -91,7 +91,7 @@ if (contactForm) {
         const data = Object.fromEntries(formData);
         
         // Basic validation
-        if (!data.name || !data.email || !data.subject || !data.message) {
+        if (!data.name || !data._replyto || !data.subject || !data.message) {
             e.preventDefault();
             showMessage('Please fill in all required fields.', 'error');
             return;
@@ -99,7 +99,7 @@ if (contactForm) {
         
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(data.email)) {
+        if (!emailRegex.test(data._replyto)) {
             e.preventDefault();
             showMessage('Please enter a valid email address.', 'error');
             return;
